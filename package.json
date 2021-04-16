@@ -1,0 +1,73 @@
+{
+  "name": "vite-electron-three-quick",
+  "version": "0.0.1",
+  "author": "Michael Erskine <msemtd@googlemail.com> (https://github.com/msemtd/)",
+  "license": "MIT",
+  "main": "dist/main/build.js",
+  "scripts": {
+    "dev": "npm run dev:all",
+    "dev:all": "concurrently -n=vit,ele -c=green,blue \"npm run dev:vit\" \"npm run dev:ele\"",
+    "dev:vit": "vite",
+    "dev:ele": "node script/build --env=development --watch",
+    "build:vit": "vite build",
+    "build:ele": "node script/build --env=production",
+    "build": "npm run build:vit && npm run build:ele && electron-builder"
+  },
+  "build": {
+    "appId": "vite-electron-three-quick",
+    "files": [
+      "!node_modules",
+      "dist/main/**",
+      "dist/render/**"
+    ],
+    "mac": {
+      "artifactName": "${productName}_setup_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_setup_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "dependencies": {
+    "electron-is-dev": "^1.2.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.1",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "chalk": "^4.1.0",
+    "concurrently": "^5.3.0",
+    "dotenv": "^8.2.0",
+    "electron": "^11.0.0",
+    "electron-builder": "^22.8.0",
+    "electron-connect": "^0.6.3",
+    "minimist": "^1.2.5",
+    "ora": "^5.0.0",
+    "rollup-plugin-esbuild": "^3.0.2",
+    "three": "^0.127.0",
+    "vite": "latest",
+    "wait-on": "^5.2.1"
+  },
+  "keywords": [
+    "vite",
+    "electron",
+    "rollup"
+  ]
+}
